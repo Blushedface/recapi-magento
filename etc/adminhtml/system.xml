@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="recapi" translate="label" sortOrder="900" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>recapi</label>
+            <tab>sales</tab>
+            <resource>Recapi_Recommendations::config</resource>
+            <group id="general" translate="label comment" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Keys</label>
+                <comment>From recapi's quick start. With all three filled in, the store counts product views, add-to-carts and orders.</comment>
+                <field id="api_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API address</label>
+                    <validate>validate-url</validate>
+                </field>
+                <field id="public_key" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Public key</label>
+                    <comment>rk_pub_…: the storefront's pages carry it.</comment>
+                </field>
+                <field id="secret_key" translate="label comment" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Secret key</label>
+                    <comment>rk_sec_…: stays on the server, which sends the orders.</comment>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+            </group>
+            <group id="rows" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Rows</label>
+                <field id="bought_together" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Often bought together</label>
+                    <comment>A second row on product pages, under recapi's first, asked for in the same call: what shoppers bought with the product.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

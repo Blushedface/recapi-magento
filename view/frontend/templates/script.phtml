@@ -1,0 +1,20 @@
+<?php
+/**
+ * @var \Recapi\Recommendations\Block\Script $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$page = $block->getPage();
+if ($page === null) {
+    return;
+}
+// The page's values, one import and one call: recapi serves the code that
+// runs (sdk/js/src/magento.js), so a fix of the row, consent or the events
+// reaches the store within a day, with nothing to install again.
+$script = <<<'JS'
+const page = RECAPI_PAGE;
+const { magentoPage } = await import(page.sdk);
+await magentoPage(page);
+JS;
+// JSON_HEX_TAG: no value can close the <script> element.
+$json = json_encode($page, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
+echo $secureRenderer->renderTag('script', ['type' => 'module'], str_replace('RECAPI_PAGE', $json, $script), false);

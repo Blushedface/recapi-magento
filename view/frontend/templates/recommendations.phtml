@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var \Recapi\Recommendations\Block\Recommendations $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$row = $block->getRow();
+if ($row === null) {
+    return;
+}
+// A product row in the theme's colours and fonts. :where() weighs nothing,
+// so any rule of the theme's restyles the cards. The min-height keeps the
+// page from jumping when recapi's cards replace the store's. Both rows print
+// it, so either styles alone where a theme removed the other.
+$css = ':where(#recapi-recommendations,#recapi-bought-together){display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;align-items:start;align-content:start;min-height:320px}'
+    . ':where(#recapi-recommendations a,#recapi-bought-together a){display:flex;flex-direction:column;gap:.25rem;color:inherit;text-decoration:none}'
+    . ':where(#recapi-recommendations img,#recapi-bought-together img){display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover}'
+    . ':where(#recapi-recommendations .recapi-price,#recapi-bought-together .recapi-price){font-weight:600}'
+    // Not :where(): a hidden row must beat the theme's .block rule.
+    . '.recapi-recommendations[hidden]{display:none}';
+?>
+<div class="block recapi-recommendations"<?= $row['hidden'] ? ' hidden' : '' ?>>
+    <div class="block-title title"><strong role="heading" aria-level="2"><?= $escaper->escapeHtml($row['heading']) ?></strong></div>
+    <div id="<?= $escaper->escapeHtml($row['slot']) ?>" class="block-content"><?php foreach ($row['fallback'] as $card): ?><a href="<?= $escaper->escapeUrl($card['url']) ?>"><img src="<?= $escaper->escapeUrl($card['picture']) ?>" alt="" loading="lazy"><span><?= $escaper->escapeHtml($card['name']) ?></span><span class="recapi-price"><?= $escaper->escapeHtml($card['price']) ?></span></a><?php endforeach ?></div>
+</div>
+<?= $secureRenderer->renderTag('style', [], $css, false) ?>

@@ -1,0 +1,23 @@
+{
+    "name": "recapi/module-recommendations",
+    "description": "Product recommendations from recapi: counts views, add-to-carts and orders, describes the catalog, and shows recapi's row on product pages.",
+    "version": "0.4.29",
+    "type": "magento2-module",
+    "license": "MIT",
+    "keywords": ["magento", "magento2", "recommendations", "personalization", "ecommerce"],
+    "homepage": "https://recapi.io",
+    "support": {
+        "docs": "https://recapi.io/docs/magento",
+        "issues": "https://recapi.io/contact"
+    },
+    "require": {
+        "php": ">=8.2",
+        "ext-curl": "*",
+        "magento/framework": ">=103.0.7",
+        "recapi/client": "^0.4.12"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {"Recapi\\Recommendations\\": ""}
+    }
+}

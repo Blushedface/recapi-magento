@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <!-- recapi's row takes the related products' place: two rows of
+             suggestions split the clicks. The merchant's related products
+             fill recapi's row while it has nothing to show. A theme moves
+             the row with <move element="recapi.recommendations" …/>. Hyvä
+             names its Related Products slider "related". -->
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="related" remove="true"/>
+        <referenceContainer name="content.aside">
+            <block class="Recapi\Recommendations\Block\Recommendations" name="recapi.recommendations" template="Recapi_Recommendations::recommendations.phtml" before="-"/>
+            <!-- The second row, filled by the same call as the first: what
+                 shoppers bought with the product. Off in the configuration's
+                 Rows group; its title is the `heading` argument too. -->
+            <block class="Recapi\Recommendations\Block\Recommendations" name="recapi.bought_together" template="Recapi_Recommendations::recommendations.phtml" after="recapi.recommendations">
+                <arguments>
+                    <argument name="list" xsi:type="string">bought_together</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
